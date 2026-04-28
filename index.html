@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Low Carbon AMC Launch</title>
+
+<style>
+:root {
+--bg-dark: #111111;
+--bg-mid: #1f1f1f;
+--bg-light: #f7f7f4;
+
+--text-light: #ffffff;
+--text-dark: #111111;
+
+--muted-light: rgba(255, 255, 255, 0.72);
+--muted-dark: rgba(0, 0, 0, 0.62);
+
+--schindler-red: #dc0000;
+--green: #4f8f5b;
+--green-soft: #dceadd;
+
+--line: rgba(255, 255, 255, 0.18);
+}
+
+* {
+box-sizing: border-box;
+-webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+margin: 0;
+padding: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+font-family: "Frutiger Next", "FrutigerNext", "Frutiger", Arial, Helvetica, sans-serif;
+background: var(--bg-dark);
+color: var(--text-light);
+touch-action: none;
+}
+
+body {
+position: fixed;
+inset: 0;
+}
+
+.app {
+width: 100vw;
+height: 100vh;
+position: relative;
+overflow: hidden;
+background:
+radial-gradient(circle at 18% 12%, rgba(79, 143, 91, 0.18), transparent 28%),
+radial-gradient(circle at 92% 84%, rgba(220, 0, 0, 0.16), transparent 24%),
+linear-gradient(135deg, #111111 0%, #1f1f1f 58%, #111111 100%);
+}
+
+.screen {
+position: absolute;
+inset: 0;
+padding: 56px 72px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+opacity: 0;
+transform: translateY(18px);
+pointer-events: none;
+transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.screen.active {
+opacity: 1;
+transform: translateY(0);
+pointer-events: auto;
+}
+
+.top-label {
+position: absolute;
+top: 34px;
+left: 72px;
+font-size: 15px;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+color: var(--muted-light);
+}
+
+.brand-mark {
+position: absolute;
+top: 34px;
+right: 72px;
+font-size: 15px;
+letter-spacing: 0.16em;
+text-transform: uppercase;
+color: var(--text-light);
+opacity: 0.84;
+}
+
+.brand-mark::before {
+content: "";
+display: inline-block;
+width: 9px;
+height: 9px;
+margin-right: 10px;
+background: var(--schindler-red);
+border-radius: 50%;
+vertical-align: middle;
+}
+
+h1 {
+margin: 0;
+max-width: 980px;
+font-size: clamp(52px, 7vw, 92px);
+line-height: 0.98;
+letter-spacing: -0.055em;
+font-weight: 700;
+}
+
+h2 {
+margin: 0;
+max-width: 980px;
+font-size: clamp(44px, 5.4vw, 76px);
+line-height: 1.02;
+letter-spacing: -0.048em;
+font-weight: 700;
+}
+
+.subtitle {
+margin-top: 26px;
+max-width: 760px;
+font-size: clamp(22px, 2.35vw, 31px);
+line-height: 1.35;
+color: var(--muted-light);
+font-weight: 400;
+}
+
+.button-row {
+margin-top: 52px;
+display: flex;
+gap: 18px;
+align-items: center;
+}
+
+button {
+appearance: none;
+border: 0;
+border-radius: 999px;
+padding: 18px 34px;
+font-size: 19px;
+font-weight: 600;
+color: white;
+background: var(--schindler-red);
+cursor: pointer;
+box-shadow: 0 16px 44px rgba(220, 0, 0, 0.24);
+font-family: "Frutiger Next", "FrutigerNext", "Frutiger", Arial, Helvetica, sans-serif;
+}
+
+button.secondary {
+background: rgba(255, 255, 255, 0.1);
+color: var(--text-light);
+border: 1px solid rgba(255, 255, 255, 0.18);
+box-shadow: none;
+}
+
+.small-note {
+font-size: 16px;
+color: var(--muted-light);
+}
+
+.meter-card {
+width: min(900px, 86vw);
+margin-top: 48px;
+padding: 34px;
+border: 1px solid rgba(255, 255, 255, 0.16);
+border-radius: 28px;
+background: rgba(255, 255, 255, 0.06);
+backdrop-filter: blur(18px);
+box-shadow: 0 34px 100px rgba(0, 0, 0, 0.22);
+}
+
+.meter-header {
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+gap: 24px;
+margin-bottom: 18px;
+}
+
+.meter-label {
+font-size: 22px;
+color: var(--muted-light);
+}
+
+.meter-value {
+font-size: 48px;
+line-height: 1;
+font-weight: 700;
+letter-spacing: -0.04em;
+}
+
+.meter-track {
+width: 100%;
+height: 28px;
+border-radius: 999px;
+background: rgba(255, 255, 255, 0.12);
+overflow: hidden;
+position: relative;
+}
+
+.meter-fill {
+height: 100%;
+width: 100%;
+border-radius: 999px;
+background: linear-gradient(90deg, var(--schindler-red), var(--green));
+transition: width 1800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.meter-claim {
+margin-top: 22px;
+font-size: 34px;
+line-height: 1.1;
+font-weight: 700;
+letter-spacing: -0.035em;
+color: var(--text-light);
+opacity: 0;
+transform: translateY(10px);
+transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.meter-claim.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+.certification {
+margin-top: 18px;
+display: flex;
+align-items: center;
+gap: 12px;
+color: var(--muted-light);
+font-size: 20px;
+opacity: 0;
+transform: translateY(10px);
+transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.certification.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+.cert-dot {
+width: 12px;
+height: 12px;
+border-radius: 50%;
+background: var(--green);
+box-shadow: 0 0 0 8px rgba(79, 143, 91, 0.12);
+}
+
+.launch-card {
+width: min(980px, 88vw);
+padding: 44px;
+border-radius: 34px;
+background:
+linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+border: 1px solid rgba(255, 255, 255, 0.18);
+box-shadow: 0 40px 110px rgba(0, 0, 0, 0.26);
+}
+
+.launch-title {
+font-size: clamp(56px, 6vw, 82px);
+line-height: 0.98;
+letter-spacing: -0.055em;
+font-weight: 700;
+margin: 0;
+}
+
+.launch-subtitle {
+margin-top: 18px;
+font-size: 30px;
+line-height: 1.15;
+letter-spacing: -0.03em;
+color: var(--text-light);
+font-weight: 600;
+}
+
+.launch-meta {
+margin-top: 26px;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 16px;
+}
+
+.meta-pill {
+min-height: 94px;
+padding: 20px;
+border-radius: 22px;
+background: rgba(255, 255, 255, 0.07);
+border: 1px solid rgba(255, 255, 255, 0.12);
+display: flex;
+align-items: center;
+font-size: 18px;
+line-height: 1.25;
+color: var(--muted-light);
+}
+
+.slider-section {
+margin-top: 46px;
+}
+
+.slider-label {
+margin-bottom: 16px;
+font-size: 21px;
+color: var(--muted-light);
+}
+
+.slider {
+width: 100%;
+height: 78px;
+border-radius: 999px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid rgba(255, 255, 255, 0.18);
+position: relative;
+overflow: hidden;
+user-select: none;
+}
+
+.slider-progress {
+position: absolute;
+inset: 0 auto 0 0;
+width: 0%;
+background: linear-gradient(90deg, rgba(79, 143, 91, 0.86), rgba(79, 143, 91, 0.38));
+border-radius: inherit;
+}
+
+.slider-text {
+position: absolute;
+inset: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+color: rgba(255, 255, 255, 0.86);
+font-size: 20px;
+font-weight: 600;
+letter-spacing: 0.02em;
+pointer-events: none;
+}
+
+.slider-handle {
+position: absolute;
+top: 8px;
+left: 8px;
+width: 62px;
+height: 62px;
+border-radius: 50%;
+background: white;
+box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+display: flex;
+align-items: center;
+justify-content: center;
+color: var(--green);
+font-size: 28px;
+font-weight: 700;
+touch-action: none;
+}
+
+.pdf-preview {
+position: absolute;
+right: 72px;
+bottom: 48px;
+width: 240px;
+height: 315px;
+border-radius: 18px;
+background: var(--bg-light);
+color: var(--text-dark);
+box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+opacity: 0;
+transform: translateY(70px) rotate(-2deg);
+transition: opacity 500ms ease, transform 500ms ease;
+overflow: hidden;
+}
+
+.pdf-preview.visible {
+opacity: 1;
+transform: translateY(0) rotate(-2deg);
+}
+
+.pdf-preview .red-line {
+height: 9px;
+background: var(--schindler-red);
+}
+
+.pdf-preview-content {
+padding: 26px 22px;
+}
+
+.pdf-preview h3 {
+margin: 0;
+font-size: 28px;
+letter-spacing: -0.05em;
+line-height: 1.05;
+}
+
+.pdf-preview p {
+margin: 18px 0 0;
+font-size: 13px;
+line-height: 1.35;
+color: var(--muted-dark);
+}
+
+.pdf-lines {
+margin-top: 38px;
+display: grid;
+gap: 11px;
+}
+
+.pdf-lines span {
+height: 8px;
+border-radius: 999px;
+background: rgba(0, 0, 0, 0.12);
+}
+
+.pdf-lines span:nth-child(2) {
+width: 78%;
+}
+
+.pdf-lines span:nth-child(3) {
+width: 56%;
+}
+
+.confirmation {
+position: absolute;
+inset: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+background: rgba(17, 17, 17, 0.88);
+backdrop-filter: blur(16px);
+opacity: 0;
+pointer-events: none;
+transition: opacity 500ms ease;
+z-index: 20;
+}
+
+.confirmation.visible {
+opacity: 1;
+pointer-events: auto;
+}
+
+.confirmation-card {
+text-align: center;
+transform: translateY(16px);
+transition: transform 500ms ease;
+}
+
+.confirmation.visible .confirmation-card {
+transform: translateY(0);
+}
+
+.confirmation-card .check {
+width: 74px;
+height: 74px;
+margin: 0 auto 26px;
+border-radius: 50%;
+background: var(--green);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 42px;
+color: white;
+}
+
+.confirmation-card h2 {
+font-size: clamp(48px, 6vw, 82px);
+}
+
+.pdf-screen {
+position: absolute;
+inset: 0;
+background: #111;
+z-index: 30;
+transform: translateY(100%);
+transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+display: flex;
+flex-direction: column;
+}
+
+.pdf-screen.visible {
+transform: translateY(0);
+}
+
+.pdf-toolbar {
+height: 58px;
+flex: 0 0 58px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 22px;
+background: #171717;
+border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+color: white;
+font-size: 15px;
+}
+
+.pdf-toolbar button {
+padding: 9px 16px;
+font-size: 14px;
+box-shadow: none;
+background: rgba(255, 255, 255, 0.11);
+border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.pdf-frame {
+flex: 1;
+width: 100%;
+height: 100%;
+border: 0;
+background: white;
+}
+
+.fallback {
+position: absolute;
+bottom: 18px;
+right: 22px;
+z-index: 40;
+}
+
+.hidden-reset-zone {
+position: absolute;
+top: 0;
+right: 0;
+width: 120px;
+height: 120px;
+z-index: 80;
+}
+
+@media (orientation: portrait) {
+.screen {
+padding: 46px 36px;
+}
+
+.top-label {
+left: 36px;
+}
+
+.brand-mark {
+right: 36px;
+}
+
+.launch-meta {
+grid-template-columns: 1fr;
+}
+
+.pdf-preview {
+display: none;
+}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<!-- Screen 1 -->
+<section class="screen active" id="screen-1">
+<div class="top-label">Low Carbon AMC Launch</div>
+<div class="brand-mark">Schindler</div>
+
+<h1>Every service contract has a footprint.</h1>
+<p class="subtitle">Today, we reduce it.</p>
+
+<div class="button-row">
+<button onclick="goToScreen(2)">Begin</button>
+<span class="small-note">Optimized service footprint · TÜV SÜD certified</span>
+</div>
+</section>
+
+<!-- Screen 2 -->
+<section class="screen" id="screen-2">
+<div class="top-label">Service Footprint</div>
+<div class="brand-mark">Schindler</div>
+
+<h2>From conventional maintenance to optimized impact.</h2>
+<p class="subtitle">A cleaner, more responsible way to deliver service reliability.</p>
+
+<div class="meter-card">
+<div class="meter-header">
+<div>
+<div class="meter-label" id="meter-label">Conventional AMC service footprint</div>
+</div>
+<div class="meter-value" id="meter-value">100%</div>
+</div>
+
+<div class="meter-track">
+<div class="meter-fill" id="meter-fill"></div>
+</div>
+
+<div class="meter-claim" id="meter-claim">
+Up to 75% lower service footprint
+</div>
+
+<div class="certification" id="certification">
+<span class="cert-dot"></span>
+<span>Optimized Service Footprint · TÜV SÜD–certified environmental impact reduction</span>
+</div>
+</div>
+
+<div class="button-row">
+<button id="continue-button" onclick="goToScreen(3)" style="opacity:0; pointer-events:none;">Continue</button>
+</div>
+</section>
+
+<!-- Screen 3 -->
+<section class="screen" id="screen-3">
+<div class="top-label">Launch Moment</div>
+<div class="brand-mark">Schindler</div>
+
+<div class="launch-card">
+<div class="launch-title">Low Carbon AMC</div>
+
+<div class="launch-subtitle">
+Up to 75% lower service footprint
+</div>
+
+<div class="launch-meta">
+<div class="meta-pill">Optimized Service Footprint</div>
+<div class="meta-pill">TÜV SÜD–Certified Reduction</div>
+<div class="meta-pill">Sustainable Service Standard</div>
+</div>
+
+<div class="slider-section">
+<div class="slider-label">Slide to reveal the certified offering</div>
+
+<div class="slider" id="slider">
+<div class="slider-progress" id="slider-progress"></div>
+<div class="slider-text" id="slider-text">Slide to launch</div>
+<div class="slider-handle" id="slider-handle">›</div>
+</div>
+</div>
+</div>
+
+<div class="pdf-preview" id="pdf-preview">
+<div class="red-line"></div>
+<div class="pdf-preview-content">
+<h3>Low Carbon AMC</h3>
+<p>Certified offering document</p>
+<div class="pdf-lines">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Confirmation Overlay -->
+<div class="confirmation" id="confirmation">
+<div class="confirmation-card">
+<div class="check">✓</div>
+<h2>Low Carbon AMC is now live.</h2>
+<p class="subtitle" style="margin-left:auto;margin-right:auto;">Opening the certified offering.</p>
+</div>
+</div>
+
+<!-- PDF Screen -->
+<div class="pdf-screen" id="pdf-screen">
+<div class="pdf-toolbar">
+<div>Low Carbon AMC · Certified Offering</div>
+<button onclick="resetExperience()">Reset</button>
+</div>
+
+<div style="
+flex: 1;
+width: 100%;
+height: 100%;
+background: #ffffff;
+color: #111111;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+padding: 48px;
+font-family: 'Frutiger Next', 'FrutigerNext', 'Frutiger', Arial, Helvetica, sans-serif;
+">
+<h2 style="
+color: #111111;
+font-size: 56px;
+line-height: 1.05;
+margin: 0;
+letter-spacing: -0.04em;
+">
+Opening certified offering...
+</h2>
+
+<p style="
+margin-top: 18px;
+margin-bottom: 36px;
+font-size: 22px;
+line-height: 1.35;
+color: rgba(0, 0, 0, 0.62);
+">
+The Low Carbon AMC Document is a click away
+</p>
+
+<a
+href="https://drive.google.com/file/d/1yKrL_pv3PWWrUiBUXxp2jDvpiYLmMM45/view?usp=sharing"
+target="_self"
+style="text-decoration: none;"
+>
+<button style="
+appearance: none;
+border: 0;
+border-radius: 999px;
+padding: 18px 34px;
+font-size: 19px;
+font-weight: 600;
+color: white;
+background: #dc0000;
+cursor: pointer;
+box-shadow: 0 16px 44px rgba(220, 0, 0, 0.24);
+font-family: 'Frutiger Next', 'FrutigerNext', 'Frutiger', Arial, Helvetica, sans-serif;
+">
+Launch Now
+</button>
+</a>
+</div>
+</div>
+
+<!-- Hidden reset zone: double tap top-right -->
+<div class="hidden-reset-zone" id="hidden-reset-zone"></div>
+
+</div>
+
+<script>
+const OPTIMIZED_FOOTPRINT_PERCENTAGE = 25;
+const FOOTPRINT_REDUCTION_PERCENTAGE = 75;
+
+const screens = {
+1: document.getElementById("screen-1"),
+2: document.getElementById("screen-2"),
+3: document.getElementById("screen-3")
+};
+
+const meterFill = document.getElementById("meter-fill");
+const meterValue = document.getElementById("meter-value");
+const meterLabel = document.getElementById("meter-label");
+const meterClaim = document.getElementById("meter-claim");
+const certification = document.getElementById("certification");
+const continueButton = document.getElementById("continue-button");
+
+const slider = document.getElementById("slider");
+const handle = document.getElementById("slider-handle");
+const progress = document.getElementById("slider-progress");
+const sliderText = document.getElementById("slider-text");
+const pdfPreview = document.getElementById("pdf-preview");
+const confirmation = document.getElementById("confirmation");
+const pdfScreen = document.getElementById("pdf-screen");
+const resetZone = document.getElementById("hidden-reset-zone");
+
+let currentScreen = 1;
+let isDragging = false;
+let sliderCompleted = false;
+let resetTapCount = 0;
+let resetTapTimer = null;
+
+function goToScreen(number) {
+Object.values(screens).forEach(screen => screen.classList.remove("active"));
+screens[number].classList.add("active");
+currentScreen = number;
+
+if (number === 2) {
+runMeterAnimation();
+}
+
+if (number === 3) {
+resetSlider();
+}
+}
+
+function runMeterAnimation() {
+meterFill.style.width = "100%";
+meterValue.textContent = "100%";
+meterLabel.textContent = "Conventional AMC service footprint";
+meterClaim.classList.remove("visible");
+certification.classList.remove("visible");
+continueButton.style.opacity = "0";
+continueButton.style.pointerEvents = "none";
+
+setTimeout(() => {
+meterFill.style.width = OPTIMIZED_FOOTPRINT_PERCENTAGE + "%";
+
+animateNumber(100, OPTIMIZED_FOOTPRINT_PERCENTAGE, 1600, value => {
+meterValue.textContent = Math.round(value) + "%";
+});
+}, 700);
+
+setTimeout(() => {
+meterLabel.textContent = "Optimized service footprint";
+meterValue.textContent = OPTIMIZED_FOOTPRINT_PERCENTAGE + "%";
+meterClaim.textContent = "Up to " + FOOTPRINT_REDUCTION_PERCENTAGE + "% lower service footprint";
+meterClaim.classList.add("visible");
+certification.classList.add("visible");
+continueButton.style.opacity = "1";
+continueButton.style.pointerEvents = "auto";
+}, 2400);
+}
+
+function animateNumber(start, end, duration, callback) {
+const startTime = performance.now();
+
+function update(now) {
+const elapsed = now - startTime;
+const progress = Math.min(elapsed / duration, 1);
+const eased = 1 - Math.pow(1 - progress, 3);
+const value = start + (end - start) * eased;
+
+callback(value);
+
+if (progress < 1) {
+requestAnimationFrame(update);
+}
+}
+
+requestAnimationFrame(update);
+}
+
+function resetSlider() {
+sliderCompleted = false;
+setSliderPosition(0);
+pdfPreview.classList.remove("visible");
+sliderText.textContent = "Slide to launch";
+}
+
+function getClientX(event) {
+if (event.touches && event.touches.length > 0) {
+return event.touches[0].clientX;
+}
+return event.clientX;
+}
+
+function setSliderPosition(percent) {
+percent = Math.max(0, Math.min(percent, 100));
+
+const sliderWidth = slider.offsetWidth;
+const handleWidth = handle.offsetWidth;
+const maxLeft = sliderWidth - handleWidth - 16;
+const left = 8 + (maxLeft * percent / 100);
+
+handle.style.left = left + "px";
+progress.style.width = percent + "%";
+
+if (percent > 12) {
+pdfPreview.classList.add("visible");
+} else {
+pdfPreview.classList.remove("visible");
+}
+
+if (percent > 50) {
+sliderText.textContent = "Keep sliding to reveal";
+} else {
+sliderText.textContent = "Slide to launch";
+}
+}
+
+function updateSliderFromEvent(event) {
+const rect = slider.getBoundingClientRect();
+const x = getClientX(event) - rect.left;
+const percent = ((x - 39) / (rect.width - 78)) * 100;
+setSliderPosition(percent);
+
+if (percent >= 96 && !sliderCompleted) {
+completeSlider();
+}
+}
+
+function completeSlider() {
+sliderCompleted = true;
+isDragging = false;
+setSliderPosition(100);
+sliderText.textContent = "Launching";
+confirmation.classList.add("visible");
+
+setTimeout(() => {
+pdfScreen.classList.add("visible");
+}, 1500);
+}
+
+handle.addEventListener("pointerdown", event => {
+if (sliderCompleted) return;
+isDragging = true;
+handle.setPointerCapture(event.pointerId);
+});
+
+handle.addEventListener("pointermove", event => {
+if (!isDragging || sliderCompleted) return;
+updateSliderFromEvent(event);
+});
+
+handle.addEventListener("pointerup", event => {
+if (sliderCompleted) return;
+isDragging = false;
+
+const currentWidth = parseFloat(progress.style.width) || 0;
+
+if (currentWidth < 96) {
+setSliderPosition(0);
+}
+});
+
+slider.addEventListener("pointerdown", event => {
+if (sliderCompleted) return;
+isDragging = true;
+updateSliderFromEvent(event);
+});
+
+slider.addEventListener("pointermove", event => {
+if (!isDragging || sliderCompleted) return;
+updateSliderFromEvent(event);
+});
+
+slider.addEventListener("pointerup", () => {
+if (sliderCompleted) return;
+isDragging = false;
+
+const currentWidth = parseFloat(progress.style.width) || 0;
+
+if (currentWidth < 96) {
+setSliderPosition(0);
+}
+});
+
+function resetExperience() {
+confirmation.classList.remove("visible");
+pdfScreen.classList.remove("visible");
+goToScreen(1);
+resetSlider();
+}
+
+resetZone.addEventListener("click", () => {
+resetTapCount++;
+
+if (resetTapTimer) {
+clearTimeout(resetTapTimer);
+}
+
+resetTapTimer = setTimeout(() => {
+resetTapCount = 0;
+}, 500);
+
+if (resetTapCount >= 2) {
+resetExperience();
+resetTapCount = 0;
+}
+});
+
+document.addEventListener("gesturestart", event => {
+event.preventDefault();
+});
+
+document.addEventListener("touchmove", event => {
+event.preventDefault();
+}, { passive: false });
+</script>
+</body>
+</html>
