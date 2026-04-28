@@ -7,21 +7,30 @@
 
 <style>
 :root {
---bg-dark: #111111;
---bg-mid: #1f1f1f;
---bg-light: #f7f7f4;
+--schindler-red: #DC0000;
+--schindler-light-grey: #D7D8D2;
+--schindler-dark-grey: #707267;
+--schindler-black: #000000;
+--schindler-white: #FFFFFF;
 
---text-light: #ffffff;
---text-dark: #111111;
+--bg-dark: #000000;
+--bg-mid: #1A1A1A;
+--bg-panel: rgba(255, 255, 255, 0.07);
+
+--text-light: #FFFFFF;
+--text-dark: #000000;
 
 --muted-light: rgba(255, 255, 255, 0.72);
 --muted-dark: rgba(0, 0, 0, 0.62);
 
---schindler-red: #dc0000;
---green: #4f8f5b;
---green-soft: #dceadd;
+--green: #4F8F5B;
+--green-soft: #DCEADD;
 
---line: rgba(255, 255, 255, 0.18);
+--line-light: rgba(255, 255, 255, 0.18);
+--line-dark: rgba(0, 0, 0, 0.14);
+
+--font-light: "Frutiger Next W1G Light", "Frutiger Next Light", "Frutiger Next", "Frutiger", Arial, Helvetica, sans-serif;
+--font-bold: "Frutiger Next W1G", "Frutiger Next", "Frutiger", Arial, Helvetica, sans-serif;
 }
 
 * {
@@ -36,7 +45,7 @@ padding: 0;
 width: 100%;
 height: 100%;
 overflow: hidden;
-font-family: "Frutiger Next", "FrutigerNext", "Frutiger", Arial, Helvetica, sans-serif;
+font-family: var(--font-light);
 background: var(--bg-dark);
 color: var(--text-light);
 touch-action: none;
@@ -53,9 +62,27 @@ height: 100vh;
 position: relative;
 overflow: hidden;
 background:
-radial-gradient(circle at 18% 12%, rgba(79, 143, 91, 0.18), transparent 28%),
-radial-gradient(circle at 92% 84%, rgba(220, 0, 0, 0.16), transparent 24%),
-linear-gradient(135deg, #111111 0%, #1f1f1f 58%, #111111 100%);
+radial-gradient(circle at 18% 12%, rgba(112, 114, 103, 0.22), transparent 30%),
+radial-gradient(circle at 92% 84%, rgba(220, 0, 0, 0.16), transparent 26%),
+linear-gradient(135deg, #000000 0%, #1A1A1A 54%, #000000 100%);
+}
+
+.app::after {
+content: "";
+position: absolute;
+inset: auto 0 0 0;
+height: 8px;
+background: linear-gradient(
+90deg,
+var(--schindler-red) 0%,
+var(--schindler-red) 33.33%,
+var(--schindler-light-grey) 33.33%,
+var(--schindler-light-grey) 66.66%,
+var(--schindler-dark-grey) 66.66%,
+var(--schindler-dark-grey) 100%
+);
+z-index: 10;
+pointer-events: none;
 }
 
 .screen {
@@ -85,6 +112,7 @@ font-size: 15px;
 letter-spacing: 0.18em;
 text-transform: uppercase;
 color: var(--muted-light);
+font-family: var(--font-light);
 }
 
 .brand-mark {
@@ -95,7 +123,8 @@ font-size: 15px;
 letter-spacing: 0.16em;
 text-transform: uppercase;
 color: var(--text-light);
-opacity: 0.84;
+opacity: 0.88;
+font-family: var(--font-bold);
 }
 
 .brand-mark::before {
@@ -115,6 +144,7 @@ max-width: 980px;
 font-size: clamp(52px, 7vw, 92px);
 line-height: 0.98;
 letter-spacing: -0.055em;
+font-family: var(--font-bold);
 font-weight: 700;
 }
 
@@ -124,6 +154,7 @@ max-width: 980px;
 font-size: clamp(44px, 5.4vw, 76px);
 line-height: 1.02;
 letter-spacing: -0.048em;
+font-family: var(--font-bold);
 font-weight: 700;
 }
 
@@ -133,7 +164,8 @@ max-width: 760px;
 font-size: clamp(22px, 2.35vw, 31px);
 line-height: 1.35;
 color: var(--muted-light);
-font-weight: 400;
+font-family: var(--font-light);
+font-weight: 300;
 }
 
 .button-row {
@@ -149,31 +181,32 @@ border: 0;
 border-radius: 999px;
 padding: 18px 34px;
 font-size: 19px;
-font-weight: 600;
-color: white;
+font-family: var(--font-bold);
+font-weight: 700;
+color: var(--schindler-white);
 background: var(--schindler-red);
 cursor: pointer;
 box-shadow: 0 16px 44px rgba(220, 0, 0, 0.24);
-font-family: "Frutiger Next", "FrutigerNext", "Frutiger", Arial, Helvetica, sans-serif;
 }
 
 button.secondary {
 background: rgba(255, 255, 255, 0.1);
 color: var(--text-light);
-border: 1px solid rgba(255, 255, 255, 0.18);
+border: 1px solid var(--line-light);
 box-shadow: none;
 }
 
 .small-note {
 font-size: 16px;
 color: var(--muted-light);
+font-family: var(--font-light);
 }
 
 .meter-card {
 width: min(900px, 86vw);
 margin-top: 48px;
 padding: 34px;
-border: 1px solid rgba(255, 255, 255, 0.16);
+border: 1px solid var(--line-light);
 border-radius: 28px;
 background: rgba(255, 255, 255, 0.06);
 backdrop-filter: blur(18px);
@@ -191,11 +224,13 @@ margin-bottom: 18px;
 .meter-label {
 font-size: 22px;
 color: var(--muted-light);
+font-family: var(--font-light);
 }
 
 .meter-value {
 font-size: 48px;
 line-height: 1;
+font-family: var(--font-bold);
 font-weight: 700;
 letter-spacing: -0.04em;
 }
@@ -213,7 +248,12 @@ position: relative;
 height: 100%;
 width: 100%;
 border-radius: 999px;
-background: linear-gradient(90deg, var(--schindler-red), var(--green));
+background: linear-gradient(
+90deg,
+var(--schindler-red) 0%,
+var(--schindler-light-grey) 54%,
+var(--schindler-dark-grey) 100%
+);
 transition: width 1800ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -221,6 +261,7 @@ transition: width 1800ms cubic-bezier(0.22, 1, 0.36, 1);
 margin-top: 22px;
 font-size: 34px;
 line-height: 1.1;
+font-family: var(--font-bold);
 font-weight: 700;
 letter-spacing: -0.035em;
 color: var(--text-light);
@@ -241,6 +282,7 @@ align-items: center;
 gap: 12px;
 color: var(--muted-light);
 font-size: 20px;
+font-family: var(--font-light);
 opacity: 0;
 transform: translateY(10px);
 transition: opacity 600ms ease, transform 600ms ease;
@@ -255,8 +297,8 @@ transform: translateY(0);
 width: 12px;
 height: 12px;
 border-radius: 50%;
-background: var(--green);
-box-shadow: 0 0 0 8px rgba(79, 143, 91, 0.12);
+background: var(--schindler-red);
+box-shadow: 0 0 0 8px rgba(220, 0, 0, 0.13);
 flex: 0 0 auto;
 }
 
@@ -266,7 +308,7 @@ padding: 44px;
 border-radius: 34px;
 background:
 linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
-border: 1px solid rgba(255, 255, 255, 0.18);
+border: 1px solid var(--line-light);
 box-shadow: 0 40px 110px rgba(0, 0, 0, 0.26);
 }
 
@@ -274,6 +316,7 @@ box-shadow: 0 40px 110px rgba(0, 0, 0, 0.26);
 font-size: clamp(56px, 6vw, 82px);
 line-height: 0.98;
 letter-spacing: -0.055em;
+font-family: var(--font-bold);
 font-weight: 700;
 margin: 0;
 }
@@ -284,7 +327,8 @@ font-size: 30px;
 line-height: 1.15;
 letter-spacing: -0.03em;
 color: var(--text-light);
-font-weight: 600;
+font-family: var(--font-light);
+font-weight: 300;
 }
 
 .launch-meta {
@@ -305,6 +349,7 @@ align-items: center;
 font-size: 18px;
 line-height: 1.25;
 color: var(--muted-light);
+font-family: var(--font-light);
 }
 
 .slider-section {
@@ -315,6 +360,7 @@ margin-top: 46px;
 margin-bottom: 16px;
 font-size: 21px;
 color: var(--muted-light);
+font-family: var(--font-light);
 }
 
 .slider {
@@ -322,7 +368,7 @@ width: 100%;
 height: 78px;
 border-radius: 999px;
 background: rgba(255, 255, 255, 0.1);
-border: 1px solid rgba(255, 255, 255, 0.18);
+border: 1px solid var(--line-light);
 position: relative;
 overflow: hidden;
 user-select: none;
@@ -332,7 +378,11 @@ user-select: none;
 position: absolute;
 inset: 0 auto 0 0;
 width: 0%;
-background: linear-gradient(90deg, rgba(79, 143, 91, 0.86), rgba(79, 143, 91, 0.38));
+background: linear-gradient(
+90deg,
+rgba(220, 0, 0, 0.95),
+rgba(112, 114, 103, 0.72)
+);
 border-radius: inherit;
 }
 
@@ -342,9 +392,10 @@ inset: 0;
 display: flex;
 align-items: center;
 justify-content: center;
-color: rgba(255, 255, 255, 0.86);
+color: rgba(255, 255, 255, 0.9);
 font-size: 20px;
-font-weight: 600;
+font-family: var(--font-bold);
+font-weight: 700;
 letter-spacing: 0.02em;
 pointer-events: none;
 }
@@ -356,13 +407,14 @@ left: 8px;
 width: 62px;
 height: 62px;
 border-radius: 50%;
-background: white;
+background: var(--schindler-white);
 box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
 display: flex;
 align-items: center;
 justify-content: center;
-color: var(--green);
+color: var(--schindler-red);
 font-size: 28px;
+font-family: var(--font-bold);
 font-weight: 700;
 touch-action: none;
 }
@@ -374,7 +426,7 @@ bottom: 48px;
 width: 240px;
 height: 315px;
 border-radius: 18px;
-background: var(--bg-light);
+background: var(--schindler-white);
 color: var(--text-dark);
 box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
 opacity: 0;
@@ -402,6 +454,8 @@ margin: 0;
 font-size: 28px;
 letter-spacing: -0.05em;
 line-height: 1.05;
+font-family: var(--font-bold);
+color: var(--text-dark);
 }
 
 .pdf-preview p {
@@ -409,6 +463,7 @@ margin: 18px 0 0;
 font-size: 13px;
 line-height: 1.35;
 color: var(--muted-dark);
+font-family: var(--font-light);
 }
 
 .pdf-lines {
@@ -437,7 +492,7 @@ inset: 0;
 display: flex;
 align-items: center;
 justify-content: center;
-background: rgba(17, 17, 17, 0.88);
+background: rgba(0, 0, 0, 0.88);
 backdrop-filter: blur(16px);
 opacity: 0;
 pointer-events: none;
@@ -466,12 +521,13 @@ width: 74px;
 height: 74px;
 margin: 0 auto 26px;
 border-radius: 50%;
-background: var(--green);
+background: var(--schindler-red);
 display: flex;
 align-items: center;
 justify-content: center;
 font-size: 42px;
-color: white;
+color: var(--schindler-white);
+font-family: var(--font-bold);
 }
 
 .confirmation-card h2 {
@@ -481,7 +537,7 @@ font-size: clamp(48px, 6vw, 82px);
 .pdf-screen {
 position: absolute;
 inset: 0;
-background: #111;
+background: var(--schindler-black);
 z-index: 30;
 transform: translateY(100%);
 transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -501,9 +557,10 @@ align-items: center;
 justify-content: space-between;
 padding: 0 22px;
 background: #171717;
-border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-color: white;
+border-bottom: 1px solid var(--line-light);
+color: var(--schindler-white);
 font-size: 15px;
+font-family: var(--font-light);
 }
 
 .pdf-toolbar button {
@@ -513,6 +570,68 @@ box-shadow: none;
 background: rgba(255, 255, 255, 0.11);
 border: 1px solid rgba(255, 255, 255, 0.16);
 width: auto;
+}
+
+.final-offering-screen {
+flex: 1;
+width: 100%;
+height: 100%;
+background:
+linear-gradient(
+90deg,
+var(--schindler-red) 0%,
+var(--schindler-red) 33.33%,
+var(--schindler-light-grey) 33.33%,
+var(--schindler-light-grey) 66.66%,
+var(--schindler-dark-grey) 66.66%,
+var(--schindler-dark-grey) 100%
+);
+color: var(--text-dark);
+display: flex;
+align-items: stretch;
+justify-content: center;
+text-align: center;
+font-family: var(--font-light);
+}
+
+.final-offering-inner {
+width: 100%;
+margin-top: 8px;
+background: var(--schindler-white);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+padding: 48px;
+}
+
+.final-offering-inner h2 {
+color: var(--text-dark);
+font-size: clamp(36px, 5vw, 56px);
+line-height: 1.05;
+margin: 0;
+letter-spacing: -0.04em;
+font-family: var(--font-bold);
+}
+
+.final-offering-inner p {
+margin-top: 18px;
+margin-bottom: 36px;
+font-size: clamp(18px, 2.4vw, 22px);
+line-height: 1.35;
+color: var(--muted-dark);
+font-family: var(--font-light);
+}
+
+.final-offering-inner a {
+text-decoration: none;
+width: min(320px, 100%);
+}
+
+.final-offering-inner button {
+width: 100%;
 }
 
 .hidden-reset-zone {
@@ -832,6 +951,10 @@ width: auto;
 padding: 8px 12px;
 font-size: 12px;
 }
+
+.final-offering-inner {
+padding: 36px 24px;
+}
 }
 
 /* Very small iPhones */
@@ -948,8 +1071,8 @@ display: none;
 <div class="top-label">Service Footprint</div>
 <div class="brand-mark">Schindler</div>
 
-<h2>From conventional maintenance to optimized impact.</h2>
-<p class="subtitle">A cleaner, more responsible way to deliver service reliability.</p>
+<h2>Same service reliability. Lower service footprint.</h2>
+<p class="subtitle">The optimized service model reduces the footprint to as low as 25% of the conventional baseline.</p>
 
 <div class="meter-card">
 <div class="meter-header">
@@ -969,7 +1092,7 @@ Up to 75% lower service footprint
 
 <div class="certification" id="certification">
 <span class="cert-dot"></span>
-<span>Optimized Service Footprint · TÜV SÜD–certified environmental impact reduction</span>
+<span>TÜV SÜD–certified environmental impact reduction</span>
 </div>
 </div>
 
@@ -987,17 +1110,17 @@ Up to 75% lower service footprint
 <div class="launch-title">Low Carbon AMC</div>
 
 <div class="launch-subtitle">
-Up to 75% lower service footprint
+A certified lower-carbon service offering
 </div>
 
 <div class="launch-meta">
-<div class="meta-pill">Optimized Service Footprint</div>
-<div class="meta-pill">TÜV SÜD–Certified Reduction</div>
-<div class="meta-pill">Sustainable Service Standard</div>
+<div class="meta-pill">Optimized Service Model</div>
+<div class="meta-pill">TÜV SÜD Certified</div>
+<div class="meta-pill">Ready for Customers</div>
 </div>
 
 <div class="slider-section">
-<div class="slider-label">Slide to reveal the certified offering</div>
+<div class="slider-label">Slide to launch the offering</div>
 
 <div class="slider" id="slider">
 <div class="slider-progress" id="slider-progress"></div>
@@ -1011,7 +1134,7 @@ Up to 75% lower service footprint
 <div class="red-line"></div>
 <div class="pdf-preview-content">
 <h3>Low Carbon AMC</h3>
-<p>Certified offering document</p>
+<p>Certified offering</p>
 <div class="pdf-lines">
 <span></span>
 <span></span>
@@ -1025,8 +1148,8 @@ Up to 75% lower service footprint
 <div class="confirmation" id="confirmation">
 <div class="confirmation-card">
 <div class="check">✓</div>
-<h2>Low Carbon AMC is now live.</h2>
-<p class="subtitle" style="margin-left:auto;margin-right:auto;">Opening the certified offering.</p>
+<h2>Low Carbon AMC is live.</h2>
+<p class="subtitle" style="margin-left:auto;margin-right:auto;">Presenting the certified offering.</p>
 </div>
 </div>
 
@@ -1037,62 +1160,19 @@ Up to 75% lower service footprint
 <button onclick="resetExperience()">Reset</button>
 </div>
 
-<div style="
-flex: 1;
-width: 100%;
-height: 100%;
-background: #ffffff;
-color: #111111;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-text-align: center;
-padding: 48px;
-font-family: 'Frutiger Next', 'FrutigerNext', 'Frutiger', Arial, Helvetica, sans-serif;
-">
-<h2 style="
-color: #111111;
-font-size: clamp(36px, 5vw, 56px);
-line-height: 1.05;
-margin: 0;
-letter-spacing: -0.04em;
-">
-Opening certified offering...
-</h2>
+<div class="final-offering-screen">
+<div class="final-offering-inner">
+<h2>Presenting the certified offering</h2>
 
-<p style="
-margin-top: 18px;
-margin-bottom: 36px;
-font-size: clamp(18px, 2.4vw, 22px);
-line-height: 1.35;
-color: rgba(0, 0, 0, 0.62);
-">
-The Low Carbon AMC Document is a click away
-</p>
+<p>View the Low Carbon AMC document</p>
 
 <a
 href="https://drive.google.com/file/d/1yKrL_pv3PWWrUiBUXxp2jDvpiYLmMM45/view?usp=sharing"
 target="_self"
-style="text-decoration: none; width: min(320px, 100%);"
 >
-<button style="
-appearance: none;
-border: 0;
-border-radius: 999px;
-padding: 18px 34px;
-font-size: 19px;
-font-weight: 600;
-color: white;
-background: #dc0000;
-cursor: pointer;
-box-shadow: 0 16px 44px rgba(220, 0, 0, 0.24);
-font-family: 'Frutiger Next', 'FrutigerNext', 'Frutiger', Arial, Helvetica, sans-serif;
-width: 100%;
-">
-Launch Now
-</button>
+<button>View Offering</button>
 </a>
+</div>
 </div>
 </div>
 
@@ -1165,7 +1245,7 @@ meterValue.textContent = Math.round(value) + "%";
 }, 700);
 
 setTimeout(() => {
-meterLabel.textContent = "Optimized service footprint";
+meterLabel.textContent = "Optimized AMC service footprint";
 meterValue.textContent = OPTIMIZED_FOOTPRINT_PERCENTAGE + "%";
 meterClaim.textContent = "Up to " + FOOTPRINT_REDUCTION_PERCENTAGE + "% lower service footprint";
 meterClaim.classList.add("visible");
@@ -1205,6 +1285,7 @@ function getClientX(event) {
 if (event.touches && event.touches.length > 0) {
 return event.touches[0].clientX;
 }
+
 return event.clientX;
 }
 
@@ -1236,6 +1317,7 @@ function updateSliderFromEvent(event) {
 const rect = slider.getBoundingClientRect();
 const x = getClientX(event) - rect.left;
 const percent = ((x - 39) / (rect.width - 78)) * 100;
+
 setSliderPosition(percent);
 
 if (percent >= 96 && !sliderCompleted) {
@@ -1252,22 +1334,25 @@ confirmation.classList.add("visible");
 
 setTimeout(() => {
 pdfScreen.classList.add("visible");
-}, 1500);
+}, 1700);
 }
 
 handle.addEventListener("pointerdown", event => {
 if (sliderCompleted) return;
+
 isDragging = true;
 handle.setPointerCapture(event.pointerId);
 });
 
 handle.addEventListener("pointermove", event => {
 if (!isDragging || sliderCompleted) return;
+
 updateSliderFromEvent(event);
 });
 
 handle.addEventListener("pointerup", event => {
 if (sliderCompleted) return;
+
 isDragging = false;
 
 const currentWidth = parseFloat(progress.style.width) || 0;
@@ -1279,17 +1364,20 @@ setSliderPosition(0);
 
 slider.addEventListener("pointerdown", event => {
 if (sliderCompleted) return;
+
 isDragging = true;
 updateSliderFromEvent(event);
 });
 
 slider.addEventListener("pointermove", event => {
 if (!isDragging || sliderCompleted) return;
+
 updateSliderFromEvent(event);
 });
 
 slider.addEventListener("pointerup", () => {
 if (sliderCompleted) return;
+
 isDragging = false;
 
 const currentWidth = parseFloat(progress.style.width) || 0;
