@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
-<title>Low Carbon AMC Launch</title>
+<title>EcoLite Diamond Launch</title>
 
 <style>
 :root {
@@ -24,7 +24,9 @@
 --muted-dark: rgba(0, 0, 0, 0.62);
 
 --green: #4F8F5B;
+--green-light: #8ABF7A;
 --green-soft: #DCEADD;
+--green-dark: #2F6F42;
 
 --line-light: rgba(255, 255, 255, 0.18);
 --line-dark: rgba(0, 0, 0, 0.14);
@@ -254,7 +256,18 @@ var(--schindler-red) 0%,
 var(--schindler-light-grey) 54%,
 var(--schindler-dark-grey) 100%
 );
-transition: width 1800ms cubic-bezier(0.22, 1, 0.36, 1);
+transition:
+width 1800ms cubic-bezier(0.22, 1, 0.36, 1),
+background 900ms ease;
+}
+
+.meter-fill.optimized {
+background: linear-gradient(
+90deg,
+var(--green-dark) 0%,
+var(--green) 52%,
+var(--green-light) 100%
+);
 }
 
 .meter-claim {
@@ -297,8 +310,8 @@ transform: translateY(0);
 width: 12px;
 height: 12px;
 border-radius: 50%;
-background: var(--schindler-red);
-box-shadow: 0 0 0 8px rgba(220, 0, 0, 0.13);
+background: var(--green);
+box-shadow: 0 0 0 8px rgba(79, 143, 91, 0.13);
 flex: 0 0 auto;
 }
 
@@ -310,6 +323,15 @@ background:
 linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
 border: 1px solid var(--line-light);
 box-shadow: 0 40px 110px rgba(0, 0, 0, 0.26);
+}
+
+.launch-kicker {
+margin-bottom: 14px;
+font-size: 18px;
+color: var(--muted-light);
+letter-spacing: 0.14em;
+text-transform: uppercase;
+font-family: var(--font-light);
 }
 
 .launch-title {
@@ -380,8 +402,9 @@ inset: 0 auto 0 0;
 width: 0%;
 background: linear-gradient(
 90deg,
-rgba(220, 0, 0, 0.95),
-rgba(112, 114, 103, 0.72)
+rgba(47, 111, 66, 0.95),
+rgba(79, 143, 91, 0.82),
+rgba(138, 191, 122, 0.68)
 );
 border-radius: inherit;
 }
@@ -412,7 +435,7 @@ box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
 display: flex;
 align-items: center;
 justify-content: center;
-color: var(--schindler-red);
+color: var(--green-dark);
 font-size: 28px;
 font-family: var(--font-bold);
 font-weight: 700;
@@ -521,7 +544,7 @@ width: 74px;
 height: 74px;
 margin: 0 auto 26px;
 border-radius: 50%;
-background: var(--schindler-red);
+background: var(--green);
 display: flex;
 align-items: center;
 justify-content: center;
@@ -602,8 +625,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-border-top-left-radius: 0;
-border-top-right-radius: 0;
 padding: 48px;
 }
 
@@ -879,6 +900,10 @@ padding: 24px;
 border-radius: 26px;
 }
 
+.launch-kicker {
+font-size: 14px;
+}
+
 .launch-title {
 font-size: clamp(40px, 11vw, 54px);
 }
@@ -1072,7 +1097,7 @@ display: none;
 <div class="brand-mark">Schindler</div>
 
 <h2>Same service reliability. Lower service footprint.</h2>
-<p class="subtitle">The optimized service model reduces the footprint to as low as 35% of the conventional baseline.</p>
+<p class="subtitle">The optimized service model reduces the footprint to as low as 65% of the conventional baseline.</p>
 
 <div class="meter-card">
 <div class="meter-header">
@@ -1087,7 +1112,7 @@ display: none;
 </div>
 
 <div class="meter-claim" id="meter-claim">
-Strengthening our commitment towards Sustainability
+Up to 35% lower service footprint
 </div>
 
 <div class="certification" id="certification">
@@ -1107,7 +1132,8 @@ Strengthening our commitment towards Sustainability
 <div class="brand-mark">Schindler</div>
 
 <div class="launch-card">
-<div class="launch-title">Low Carbon AMC</div>
+<div class="launch-kicker">Low Carbon AMC</div>
+<div class="launch-title">EcoLite Diamond</div>
 
 <div class="launch-subtitle">
 A certified lower-carbon service offering
@@ -1120,7 +1146,7 @@ A certified lower-carbon service offering
 </div>
 
 <div class="slider-section">
-<div class="slider-label">Slide to launch the offering</div>
+<div class="slider-label">Slide to launch EcoLite Diamond</div>
 
 <div class="slider" id="slider">
 <div class="slider-progress" id="slider-progress"></div>
@@ -1133,7 +1159,7 @@ A certified lower-carbon service offering
 <div class="pdf-preview" id="pdf-preview">
 <div class="red-line"></div>
 <div class="pdf-preview-content">
-<h3>Low Carbon AMC</h3>
+<h3>EcoLite Diamond</h3>
 <p>Certified offering</p>
 <div class="pdf-lines">
 <span></span>
@@ -1148,7 +1174,7 @@ A certified lower-carbon service offering
 <div class="confirmation" id="confirmation">
 <div class="confirmation-card">
 <div class="check">✓</div>
-<h2>Low Carbon AMC is live.</h2>
+<h2>EcoLite Diamond is live.</h2>
 <p class="subtitle" style="margin-left:auto;margin-right:auto;">Presenting the certified offering.</p>
 </div>
 </div>
@@ -1156,13 +1182,13 @@ A certified lower-carbon service offering
 <!-- PDF Screen -->
 <div class="pdf-screen" id="pdf-screen">
 <div class="pdf-toolbar">
-<div>Low Carbon AMC · Certified Offering</div>
+<div>EcoLite Diamond · Certified Offering</div>
 <button onclick="resetExperience()">Reset</button>
 </div>
 
 <div class="final-offering-screen">
 <div class="final-offering-inner">
-<h2>Presenting the certified offering</h2>
+<h2>Presenting EcoLite Diamond</h2>
 
 <p>View the Low Carbon AMC document</p>
 
@@ -1182,8 +1208,8 @@ target="_self"
 </div>
 
 <script>
-const OPTIMIZED_FOOTPRINT_PERCENTAGE = 35;
-const FOOTPRINT_REDUCTION_PERCENTAGE = 65;
+const OPTIMIZED_FOOTPRINT_PERCENTAGE = 65;
+const FOOTPRINT_REDUCTION_PERCENTAGE = 35;
 
 const screens = {
 1: document.getElementById("screen-1"),
@@ -1228,6 +1254,7 @@ resetSlider();
 }
 
 function runMeterAnimation() {
+meterFill.classList.remove("optimized");
 meterFill.style.width = "100%";
 meterValue.textContent = "100%";
 meterLabel.textContent = "Conventional AMC service footprint";
@@ -1243,6 +1270,10 @@ animateNumber(100, OPTIMIZED_FOOTPRINT_PERCENTAGE, 1600, value => {
 meterValue.textContent = Math.round(value) + "%";
 });
 }, 700);
+
+setTimeout(() => {
+meterFill.classList.add("optimized");
+}, 1600);
 
 setTimeout(() => {
 meterLabel.textContent = "Optimized AMC service footprint";
